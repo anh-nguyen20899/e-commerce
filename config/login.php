@@ -1,13 +1,26 @@
 <?php
    include("config.php");
-   
+   session_start();
    if($_SERVER["REQUEST_METHOD"] == "POST") {
       // username and password sent from form 
       
       $myusername = mysqli_real_escape_string($conn,$_POST['username']);
       $mypassword = mysqli_real_escape_string($conn,$_POST['password']); 
-      echo $myusername;
+
+      $sql = "SELECT id FROM USER WHERE Email = '$myusername' and Password = '$mypassword'";
+      $result = mysqli_query($conn,$sql);
+      
+      if($result)
+      {
+         while($row = mysqli_fetch_array($result))
+         {
+            echo $row["id"];
+         }
+      }
+
+      
    }
+   
    CloseCon($conn);
 ?>
 	
